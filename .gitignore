@@ -2,4 +2,6 @@
 .idea
 
 # Symfony files
-lib/
+lib/vendor
+cache/
+log/
