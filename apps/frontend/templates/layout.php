@@ -12,7 +12,7 @@
     <div id="header">
         <div class="content">
             <h1>
-                <a href="/job">
+                <a href="<?= url_for('@homepage') ?>">
                     <img src="/images/jobeet.gif" alt="Jobeet Job Board" />
                 </a>
             </h1>

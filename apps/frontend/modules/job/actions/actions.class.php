@@ -14,6 +14,7 @@ class jobActions extends sfActions
      * Renders list of job opportunities.
      *
      * @param sfWebRequest $request
+     * @throws Doctrine_Query_Exception
      */
     public function executeIndex(sfWebRequest $request)
     {
@@ -29,14 +30,14 @@ class jobActions extends sfActions
      */
     public function executeShow(sfWebRequest $request)
     {
-        $this->job = Doctrine_Core::getTable('JobeetJob')->find(array($request->getParameter('id')));
-        $this->forward404Unless($this->job);
+        $this->job = $this->getRoute()->getObject();
     }
 
     /**
      * Renders form for creating of new job opportunity.
      *
      * @param sfWebRequest $request
+     * @throws sfException
      */
     public function executeNew(sfWebRequest $request)
     {
@@ -47,6 +48,8 @@ class jobActions extends sfActions
      * Process data from create form.
      *
      * @param sfWebRequest $request
+     * @throws sfError404Exception
+     * @throws sfException
      */
     public function executeCreate(sfWebRequest $request)
     {
@@ -63,6 +66,8 @@ class jobActions extends sfActions
      * Renders form for updating of job opportunity.
      *
      * @param sfWebRequest $request
+     * @throws sfError404Exception
+     * @throws sfException
      */
     public function executeEdit(sfWebRequest $request)
     {
@@ -74,6 +79,8 @@ class jobActions extends sfActions
      * Proccess data from update form.
      *
      * @param sfWebRequest $request
+     * @throws sfError404Exception
+     * @throws sfException
      */
     public function executeUpdate(sfWebRequest $request)
     {
@@ -87,9 +94,12 @@ class jobActions extends sfActions
     }
 
     /**
-     * Delete job oppurtunity.
+     * Delete job opportunity.
      *
      * @param sfWebRequest $request
+     * @throws sfError404Exception
+     * @throws sfStopException
+     * @throws sfValidatorErrorSchema
      */
     public function executeDelete(sfWebRequest $request)
     {
@@ -106,6 +116,7 @@ class jobActions extends sfActions
      *
      * @param sfWebRequest $request
      * @param sfForm $form
+     * @throws sfStopException
      */
     protected function processForm(sfWebRequest $request, sfForm $form)
     {
