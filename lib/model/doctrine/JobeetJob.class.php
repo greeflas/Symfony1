@@ -12,18 +12,42 @@
  */
 class JobeetJob extends BaseJobeetJob
 {
+    /**
+     * @return string
+     */
     public function getCompanySlug()
     {
         return Jobeet::slugify($this->getCompany());
     }
 
+    /**
+     * @return string
+     */
     public function getPositionSlug()
     {
         return Jobeet::slugify($this->getPosition());
     }
 
+    /**
+     * @return string
+     */
     public function getLocationSlug()
     {
         return Jobeet::slugify($this->getLocation());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function save(Doctrine_Connection $conn = null)
+    {
+        if ($this->isNew() && !$this->getExpiresAt()) {
+            $now = $this->getCreatedAt()
+                ? $this->getDateTimeObject('created_at')->format('U')
+                : time();
+            $this->setExpiresAt(date('Y-m-d h:i:s', $now + 86400 * sfConfig::get('app_get_active_days')));
+        }
+
+        parent::save($conn);
     }
 }

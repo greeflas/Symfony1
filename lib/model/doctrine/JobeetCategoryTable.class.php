@@ -16,4 +16,34 @@ class JobeetCategoryTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('JobeetCategory');
     }
+
+    /**
+     * Returns collection of categories with jobs.
+     *
+     * @return Doctrine_Collection
+     * @throws Doctrine_Query_Exception
+     */
+    public function getWithJobs()
+    {
+        $jobs = Doctrine_Query::create()
+            ->from('JobeetJob j')
+            ->where('j.expires_at > ?', date('Y-m-d h:i:s', time()))
+            ->execute();
+
+        $IDs = [];
+        foreach ($jobs as $job) {
+            $IDs[] = $job->getCategoryId();
+        }
+
+        return $this->createQuery('c')
+            ->where('id IN (' . implode(', ', $IDs) . ')')
+            ->execute();
+
+        // TODO: find a bug
+//        $q = $this->createQuery('c')
+//            ->leftJoin('c.JobeetJobs j')
+//            ->where('j.expires_at > ?', date('Y-m-d h:i:s', time()));
+//
+//        return $q->execute();
+    }
 }
