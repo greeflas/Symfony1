@@ -13,6 +13,8 @@
 class JobeetJob extends BaseJobeetJob
 {
     /**
+     * Returns slug for company field.
+     *
      * @return string
      */
     public function getCompanySlug()
@@ -21,6 +23,8 @@ class JobeetJob extends BaseJobeetJob
     }
 
     /**
+     * Returns slug for position field.
+     *
      * @return string
      */
     public function getPositionSlug()
@@ -29,6 +33,8 @@ class JobeetJob extends BaseJobeetJob
     }
 
     /**
+     * Returns slug for location field.
+     *
      * @return string
      */
     public function getLocationSlug()

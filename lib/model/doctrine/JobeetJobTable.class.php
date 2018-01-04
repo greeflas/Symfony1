@@ -18,6 +18,17 @@ class JobeetJobTable extends Doctrine_Table
     }
 
     /**
+     * Handles request.
+     *
+     * @param Doctrine_Query $q
+     * @return JobeetJob
+     */
+    public function retrieveActiveJob(Doctrine_Query $q)
+    {
+        return $this->addActiveJobsQuery($q)->fetchOne();
+    }
+
+    /**
      * Returns collection of active jobs.
      *
      * @param Doctrine_Query|null $q
@@ -26,25 +37,37 @@ class JobeetJobTable extends Doctrine_Table
      */
     public function getActiveJobs(Doctrine_Query $q = null)
     {
+        return $this->addActiveJobsQuery($q)->execute();
+    }
+
+    /**
+     * Returns active jobs count.
+     *
+     * @param Doctrine_Query|null $q
+     * @return mixed
+     */
+    public function countActiveJobs(Doctrine_Query $q = null)
+    {
+        return $this->addActiveJobsQuery($q)->count();
+    }
+
+    /**
+     * Prepare query for getting active jobs.
+     *
+     * @param Doctrine_Query|null $q
+     * @return Doctrine_Query
+     */
+    public function addActiveJobsQuery(Doctrine_Query $q = null)
+    {
         if (null === $q) {
             $q = $this->createQuery('j');
         }
 
-        $q->andWhere('j.expires_at > ?', date('Y-m-d h:i:s', time()))
-            ->addOrderBy('j.expires_at DESC');
+        $alias = $q->getRootAlias();
 
-        return $q->execute();
-    }
+        $q->andWhere($alias . '.expires_at > ?', date('Y-m-d h:i:s', time()))
+            ->addOrderBy($alias . '.expires_at DESC');
 
-    /**
-     * Handles request.
-     *
-     * @param Doctrine_Query $q
-     * @return mixed
-     */
-    public function retrieveActiveJob(Doctrine_Query $q)
-    {
-        $q->andWhere('a.expires_at > ?', date('Y-m-d h:i:s', time()));
-        return $q->fetchOne();
+        return $q;
     }
 }

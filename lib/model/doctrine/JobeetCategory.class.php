@@ -13,16 +13,40 @@
 class JobeetCategory extends BaseJobeetCategory
 {
     /**
-     * @param int $max
-     * @return mixed
+     * Returns collection of category with active jobs.
+     *
+     * @param int $max Categories limit.
+     * @return Doctrine_Collection
+     * @throws Doctrine_Query_Exception
      */
     public function getActiveJobs($max = 10)
     {
+        return $this->getActiveJobsQuery()
+            ->limit($max)
+            ->execute();
+    }
+
+    /**
+     * Returns count of categories with active jobs.
+     *
+     * @return mixed
+     */
+    public function countActiveJobs()
+    {
+        return $this->getActiveJobsQuery()->count();
+    }
+
+    /**
+     * Prepare query for getting categories with active jobs.
+     *
+     * @return Doctrine_Query
+     */
+    public function getActiveJobsQuery()
+    {
         $q = Doctrine_Query::create()
             ->from('JobeetJob j')
-            ->where('j.category_id = ?', $this->getId())
-            ->limit($max);
+            ->where('j.category_id = ? ', $this->getId());
 
-        return Doctrine_Core::getTable('JobeetJob')->getActiveJobs($q);
+        return Doctrine_Core::getTable('JobeetJob')->addActiveJobsQuery($q);
     }
 }
