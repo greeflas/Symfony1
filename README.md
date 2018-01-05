@@ -34,3 +34,7 @@ This is demo project for learning the Symfony 1 framework.
 `$ cd project_name/web && ln -s ../lib/vendor/symfony/data/web/sf/ sf`
 
 `$ php -S 127.0.0.1:8080`
+
+## Run tests
+
+`$ ./symfony test:unit`

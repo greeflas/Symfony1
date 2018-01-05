@@ -16,6 +16,12 @@ class Jobeet
     public static function slugify($text)
     {
         $text = preg_replace('/\W+/', '-', $text);
-        return strtolower(trim($text, '-'));
+        $text = strtolower(trim($text, '-'));
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }
