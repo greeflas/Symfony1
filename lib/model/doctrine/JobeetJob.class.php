@@ -43,6 +43,70 @@ class JobeetJob extends BaseJobeetJob
     }
 
     /**
+     * @return string
+     */
+    public function getTypeName()
+    {
+        $types = Doctrine_Core::getTable('JobeetJob')->getTypes();
+        return $this->getType() ? $types[$this->getType()] : '';
+    }
+
+    /**
+     * @return bool
+     * @throws sfException
+     */
+    public function isExpired()
+    {
+        return $this->getDaysBeforeExpires() < 5;
+    }
+
+    /**
+     * @return bool
+     * @throws sfException
+     */
+    public function expiresSoon()
+    {
+        return $this->getDaysBeforeExpires() < 5;
+    }
+
+    /**
+     * @return float
+     * @throws sfException
+     */
+    public function getDaysBeforeExpires()
+    {
+        return ceil(($this->getDateTimeObject('expires_at')->format('U') - time()) / 86400);
+    }
+
+    /**
+     * Activate job.
+     */
+    public function publish()
+    {
+        $this->setIsActivated(true);
+        $this->save();
+    }
+
+    /**
+     * Extend expires date.
+     *
+     * @return bool
+     * @throws sfException
+     */
+    public function extend()
+    {
+        if (!$this->expiresSoon()) {
+            return false;
+        }
+
+        $this->setExpiresAt(date('Y-m-d', time() + 86400 * sfConfig::get('app_active_days')));
+
+        $this->save();
+
+        return true;
+    }
+    
+    /**
      * @inheritdoc
      */
     public function save(Doctrine_Connection $conn = null)
@@ -52,6 +116,10 @@ class JobeetJob extends BaseJobeetJob
                 ? $this->getDateTimeObject('created_at')->format('U')
                 : time();
             $this->setExpiresAt(date('Y-m-d h:i:s', $now + 86400 * sfConfig::get('app_active_days')));
+        }
+
+        if (!$this->getToken()) {
+            $this->setToken(sha1($this->getEmail() . rand(11111, 99999)));
         }
 
         parent::save($conn);

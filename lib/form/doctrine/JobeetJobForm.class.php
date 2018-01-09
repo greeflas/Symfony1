@@ -10,7 +10,48 @@
  */
 class JobeetJobForm extends BaseJobeetJobForm
 {
-  public function configure()
-  {
-  }
+    /**
+     * @inheritdoc
+     */
+    public function configure()
+    {
+        // remove fields
+        unset(
+            $this['created_at'],
+            $this['updated_at'],
+            $this['expires_at'],
+            $this['is_activated'],
+            $this['token']
+        );
+
+        // validators
+        $this->validatorSchema['email'] = new sfValidatorAnd([
+            $this->validatorSchema['email'],
+            new sfValidatorEmail()
+        ]);
+
+        $this->validatorSchema['logo'] = new sfValidatorFile([
+            'required' => false,
+            'path' => sfConfig::get('sf_upload_dir') . '/jobs',
+            'mime_types' => 'web_images',
+        ]);
+
+        // widgets
+        $this->widgetSchema['type'] = new sfWidgetFormChoice([
+            'choices' => Doctrine_Core::getTable('JobeetJob')->getTypes(),
+            'expanded' => true,
+        ]);
+
+        $this->widgetSchema['logo'] = new sfWidgetFormInputFile(['label' => 'Company logo']);
+
+        // labels
+        $this->widgetSchema->setLabels([
+            'category_id'   => 'Category',
+            'is_public'     => 'Is public?',
+            'how_to_apply'  => 'How to apply?',
+        ]);
+
+        // hints
+        $this->widgetSchema->setHelp('is_public', 'Whether the job can also be published on affiliate websites or not.');
+    }
 }

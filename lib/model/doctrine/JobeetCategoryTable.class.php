@@ -28,6 +28,7 @@ class JobeetCategoryTable extends Doctrine_Table
         $jobs = Doctrine_Query::create()
             ->from('JobeetJob j')
             ->where('j.expires_at > ?', date('Y-m-d h:i:s', time()))
+            ->andWhere('j.is_activated = ?', 1)
             ->execute();
 
         $IDs = [];
