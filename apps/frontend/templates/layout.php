@@ -48,6 +48,17 @@
             <div class="flash_error"><?php echo $sf_user->getFlash('error') ?></div>
         <?php endif; ?>
 
+        <div id="job_history">
+            Recent viewed jobs:
+            <ul>
+            <?php foreach ($sf_user->getJobHistory() as $job): ?>
+                <li>
+                    <?= link_to($job->getPosition() . ' - ' . $job->getCompany(), 'job_show_user', $job) ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+
         <div class="content">
             <?php echo $sf_content ?>
         </div>
