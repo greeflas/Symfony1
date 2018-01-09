@@ -88,4 +88,20 @@ class JobeetJobTable extends Doctrine_Table
 
         return $q;
     }
+
+    /**
+     * Cleanup old not activated jobs.
+     *
+     * @param int $days
+     * @return Doctrine_Collection
+     * @throws Doctrine_Query_Exception
+     */
+    public function cleanup($days)
+    {
+        return $this->createQuery('a')
+            ->delete()
+            ->andWhere('a.is_activated = ?', 0)
+            ->andWhere('a.created_at < ?', date('Y-m-d', time() - 86400 * $days))
+            ->execute();
+    }
 }
