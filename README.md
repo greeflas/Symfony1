@@ -29,6 +29,10 @@ This is demo project for learning the Symfony 1 framework.
 | modules/      | MVC                                   |
 | templates/    | Global templates of application       |
 
+## Install plugins
+
+`$ ./symfony plugin:install sfDoctrineGuardPlugin`
+
 ## Run application
 
 `$ cd project_name/web && ln -s ../lib/vendor/symfony/data/web/sf/ sf`

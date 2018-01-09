@@ -37,7 +37,9 @@ abstract class BaseJobeetCategoryFormFilter extends BaseFormFilterDoctrine
     parent::setup();
   }
 
-  public function addListColumnQuery(Doctrine_Query $query, $field, $values)
+  public function add
+Warning: preg_replace(): The /e modifier is no longer supported, use preg_replace_callback instead in /web/symfony1-demo/lib/vendor/symfony/lib/util/sfToolkit.class.php on line 362
+ListColumnQuery(Doctrine_Query $query, $field, $values)
   {
     if (!is_array($values))
     {
