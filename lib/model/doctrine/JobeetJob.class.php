@@ -90,12 +90,13 @@ class JobeetJob extends BaseJobeetJob
     /**
      * Extend expires date.
      *
+     * @param bool $force
      * @return bool
      * @throws sfException
      */
-    public function extend()
+    public function extend($force = false)
     {
-        if (!$this->expiresSoon()) {
+        if (!$force && !$this->expiresSoon()) {
             return false;
         }
 
