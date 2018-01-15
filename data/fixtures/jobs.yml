@@ -1,14 +1,3 @@
-JobeetCategory:
-  design:
-    name: Design
-  programming:
-    name: Programming
-  manager:
-    name: Manager
-  administrator:
-    name: Administrator
- 
-# data/fixtures/jobs.yml
 JobeetJob:
   job_sensio_labs:
     JobeetCategory: programming
@@ -31,7 +20,7 @@ JobeetJob:
     token:        job_sensio_labs
     email:        job@example.com
     expires_at:   '2018-02-03'
- 
+
   job_extreme_sensio:
     JobeetCategory:  design
     type:         part-time
@@ -46,7 +35,7 @@ JobeetJob:
       enim ad minim veniam, quis nostrud exercitation ullamco laboris
       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
       in reprehenderit in.
- 
+
       Voluptate velit esse cillum dolore eu fugiat nulla pariatur.
       Excepteur sint occaecat cupidatat non proident, sunt in culpa
       qui officia deserunt mollit anim id est laborum.

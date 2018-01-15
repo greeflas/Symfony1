@@ -43,6 +43,28 @@ class JobeetJob extends BaseJobeetJob
     }
 
     /**
+     * Convert object to array.
+     *
+     * @param string $host
+     * @return array
+     */
+    public function asArray($host)
+    {
+        return [
+            'category'      => $this->getJobeetCategory()->getName(),
+            'type'          => $this->getType(),
+            'company'       => $this->getCompany(),
+            'logo'          => $this->getLogo() ? 'http://' . $host . '/uploads/jobs/' . $this->getLogo() : null,
+            'url'           => $this->getUrl(),
+            'position'      => $this->getPosition(),
+            'location'      => $this->getLocation(),
+            'description'   => $this->getDescription(),
+            'how_to_apply'  => $this->getHowToApply(),
+            'expires_at'    => $this->getExpiresAt(),
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getTypeName()
