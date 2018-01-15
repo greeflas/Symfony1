@@ -26,5 +26,9 @@ class categoryActions extends sfActions
 
         $this->category = $category;
         $this->pager = $pager;
+
+        if ('json' === $request->getRequestFormat()) {
+            $this->latestPost = $category->getLatestPost();
+        }
     }
 }

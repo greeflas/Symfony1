@@ -5,7 +5,7 @@
         <div class="category_<?= Jobeet::slugify($category->getName()) ?>">
             <div class="category">
                 <div class="feed">
-                    <a href="">Feed</a>
+                    <a href="<?= url_for('category', ['sf_subject' => $category, 'sf_format' => 'json']) ?>">Feed</a>
                 </div>
                 <h1><?= link_to($category, 'category', $category) ?></h1>
             </div>

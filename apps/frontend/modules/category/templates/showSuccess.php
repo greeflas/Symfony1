@@ -4,7 +4,7 @@
 
 <div class="category">
     <div class="feed">
-        <a href="">Feed</a>
+        <a href="<?= url_for('category', ['sf_subject' => $category, 'sf_format' => 'json']) ?>">Feed</a>
     </div>
     <h1><?= $category ?></h1>
 </div>
