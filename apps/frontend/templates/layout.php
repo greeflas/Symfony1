@@ -4,6 +4,7 @@
 <head>
     <title><?php include_slot('title', 'Jobeet - Your best job board') ?></title>
     <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/json" title="Latest Jobs" href="<?= url_for('job', ['sf_format' => 'json'], true) ?>" />
     <?php include_javascripts() ?>
     <?php include_stylesheets() ?>
 </head>
@@ -76,7 +77,7 @@
                     <a href="">About Jobeet</a>
                 </li>
                 <li class="feed">
-                    <a href="">Full feed</a>
+                    <a href="<?= url_for('job', ['sf_format' => 'json']) ?>">Full feed</a>
                 </li>
                 <li>
                     <a href="">Jobeet API</a>

@@ -18,6 +18,10 @@ class jobActions extends sfActions
     public function executeIndex(sfWebRequest $request)
     {
         $this->categories = Doctrine_Core::getTable('JobeetCategory')->getWithJobs();
+
+        if ('json' === $request->getRequestFormat()) {
+            $this->latestPost = Doctrine_Core::getTable('JobeetJob')->getLatestPost();
+        }
     }
 
     /**
@@ -28,7 +32,6 @@ class jobActions extends sfActions
     public function executeShow(sfWebRequest $request)
     {
         $this->job = $this->getRoute()->getObject();
-        $this->getUser()->addJobToHistory($this->job->getId());
     }
 
     /**

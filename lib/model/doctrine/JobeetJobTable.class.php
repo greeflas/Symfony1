@@ -104,4 +104,19 @@ class JobeetJobTable extends Doctrine_Table
             ->andWhere('a.created_at < ?', date('Y-m-d', time() - 86400 * $days))
             ->execute();
     }
+
+    /**
+     * Returns latest active job.
+     *
+     * @return mixed
+     */
+    public function getLatestPost()
+    {
+        $q = Doctrine_Query::create()
+            ->from('JobeetJob j');
+
+        $this->addActiveJobsQuery($q);
+
+        return $q->fetchOne();
+    }
 }
